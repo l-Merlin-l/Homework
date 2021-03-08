@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+    public static final int AUTOCOMPLETE = 15;
     static Random random = new Random();
     static Scanner scanner = new Scanner(System.in);
     static final int RANGE_RANDOM = 10;
@@ -70,7 +71,7 @@ public class Main {
                         ?word.charAt(i)
                         :"*";
             }
-            for (int i = word.length(); i < 15; i++) {
+            for (int i = word.length(); i < AUTOCOMPLETE; i++) {
                 variant += "*";
             }
             System.out.println(variant + "\nЭти буквы были отгаданы в слове.\nПопробуете еще раз? 1 – да / 0 – нет");

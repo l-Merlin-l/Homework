@@ -2,13 +2,11 @@ package ru.geekbrains.Lesson.Lesson6.Animal;
 
 public abstract class Animal {
 
-    private String animal;
     private String name;
     private String color;
     private int age;
 
-    protected Animal(String animal, String name, String color, int age){
-        this.animal = animal;
+    protected Animal( String name, String color, int age){
         this.name = name;
         this.color = color;
         this.age = age;
@@ -31,13 +29,15 @@ public abstract class Animal {
     }
 
     public String toString(){
-        return animal +
-                "{name='" + name + "', " +
+        return "{name='" + name + "', " +
                 "color='" + color + "', " +
                 "age=" + age + "}";
     }
 
-    public String getAnimal() {
-        return animal;
-    }
+    public abstract String getAnimal();
+
+    public abstract int getMaxRun();
+
+    public abstract int getMaxSwim();
+
 }

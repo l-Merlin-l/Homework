@@ -6,7 +6,7 @@ public class Dog extends Animal{
     private static final String ANIMAL = "Dog";
 
     public Dog(String name, String color, int age){
-        super(ANIMAL, name, color, age);
+        super(name, color, age);
     }
 
     @Override
@@ -17,5 +17,23 @@ public class Dog extends Animal{
     @Override
     public void swim(int distance) {
         super.swim(Math.min(distance, MAX_SWIM));
+    }
+
+    @Override
+    public String getAnimal() {
+        return ANIMAL;
+    }
+    @Override
+    public String toString() {
+        return ANIMAL + super.toString();
+    }
+
+
+    public int getMaxRun(){
+        return MAX_RUN;
+    }
+
+    public int getMaxSwim(){
+        return MAX_SWIM;
     }
 }

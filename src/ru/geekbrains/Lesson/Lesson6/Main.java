@@ -2,8 +2,6 @@ package ru.geekbrains.Lesson.Lesson6;
 
 import ru.geekbrains.Lesson.Lesson6.Animal.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class Main {

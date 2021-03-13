@@ -28,7 +28,6 @@ public class Dog extends Animal{
         return ANIMAL + super.toString();
     }
 
-
     public int getMaxRun(){
         return MAX_RUN;
     }

@@ -26,7 +26,7 @@ public class Cat extends Animal{
 
     @Override
     public String toString() {
-        return ANIMAL + super.toString();
+        return super.toString().replaceAll("animal", ANIMAL);
     }
 
     public int getMaxRun(){

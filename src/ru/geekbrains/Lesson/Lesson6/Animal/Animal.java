@@ -30,7 +30,7 @@ public abstract class Animal {
 
     @Override
     public String toString(){
-        return "{name='" + name + "', " +
+        return "animal{name='" + name + "', " +
                 "color='" + color + "', " +
                 "age=" + age + "}";
     }

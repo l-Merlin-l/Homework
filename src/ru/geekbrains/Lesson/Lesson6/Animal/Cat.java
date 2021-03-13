@@ -6,6 +6,16 @@ public class Cat extends Animal{
     private static final String ANIMAL = "Cat";
 
     public Cat(String name, String color, int age){
-        super(ANIMAL, name,color, age, MAX_RUN, MAX_SWIM);
+        super(ANIMAL, name,color, age);
+    }
+
+    @Override
+    public void run(int distance) {
+        super.run(Math.min(distance, MAX_RUN));
+    }
+
+    @Override
+    public void swim(int distance) {
+        super.swim(Math.min(distance, MAX_SWIM));
     }
 }

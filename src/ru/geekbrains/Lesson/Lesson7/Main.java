@@ -44,7 +44,6 @@ public class Main {
             plate.printInfo();
             System.out.println("Кормим котов повторно");
             catsEat(plate);
-
         }
     }
 

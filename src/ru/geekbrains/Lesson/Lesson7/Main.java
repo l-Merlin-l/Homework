@@ -6,16 +6,21 @@ public class Main {
     private static final int MAX_CATS = 10;
     private static final String[] NAME = new String[]{"Барсик","Мур","Котенок","Щенок","Мурзик","Стрелка","Кто-то", "Рыжик"};
     private static Cat [] cats;
+    private static Plate plate;
 
     public static void main(String[] args) {
         initCats(random.nextInt(MAX_CATS)+1);
 
-        Plate plate = new Plate(50);
+        initPlate(50);
+
+        catsEat();
+
+        feedMore();
+    }
+
+    private static void initPlate(int size) {
+        plate = new Plate(size);
         plate.printInfo();
-
-        catsEat(plate);
-
-        feedMore(plate);
     }
 
     private static void initCats(int quantity){
@@ -25,25 +30,22 @@ public class Main {
         }
     }
 
-    private static void catsEat(Plate plate) {
+    private static void catsEat() {
         System.out.println("Коты едят -> ");
         for (Cat cat : cats) {
             cat.eat(plate);
         }
         System.out.println("Состояние котов после кормежки ->");
         stateSatiety();
-        System.out.println("Еды осталось");
-        plate.printInfo();
+        System.out.println("Еды осталось -> " + plate.info());
     }
 
-    private static void feedMore(Plate plate) {
+    private static void feedMore() {
         final int food = 50;
-        while (isSatietyCats()){
-            plate.addFood(food);
-            System.out.println("Еды добавили. Теперь еды ->");
-            plate.printInfo();
+        while (isSatietyCats() && addFoodPlate(food)){
+            System.out.println("Еды добавили. Теперь еды ->" + plate.info());
             System.out.println("Кормим котов повторно");
-            catsEat(plate);
+            catsEat();
         }
     }
 
@@ -53,7 +55,7 @@ public class Main {
         }
     }
 
-    private static boolean isSatietyCats(){
+    private static boolean isSatietyCats(){ //проверка на наличие голодных котов
         for (Cat cat : cats){
             if(!cat.getSatiety()){
                 return true;
@@ -70,5 +72,11 @@ public class Main {
         final int MAX_APPETITE = 20;
         final int MIN_APPETITE = 5;
         return random.nextInt(MAX_APPETITE - MIN_APPETITE) + MIN_APPETITE;
+    }
+
+    private static boolean addFoodPlate(int food){
+        int foodLast = plate.getFood();
+        plate.addFood(food);
+        return  (foodLast != plate.getFood());
     }
 }

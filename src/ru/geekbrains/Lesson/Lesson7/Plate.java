@@ -24,10 +24,18 @@ public class Plate {
     }
 
     public void addFood(int food){
-        this.food += food;
+        if (food > 0) {
+            this.food += food;
+        }else {
+            System.out.println("Вы ничего не положили дополнительно в тарелку");
+        }
     }
 
     public void printInfo(){
         System.out.println(info());
+    }
+
+    public int getFood(){
+        return this.food;
     }
 }

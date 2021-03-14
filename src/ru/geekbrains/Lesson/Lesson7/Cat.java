@@ -7,7 +7,7 @@ public class Cat {
 
     public Cat(String name, int appetite) {
         this.name = name;
-        this.appetite = appetite;
+        this.appetite = Math.max(appetite, 0);
         this.satiety = false;
     }
 

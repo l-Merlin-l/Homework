@@ -45,19 +45,19 @@ public class GameServiceImpl implements GameService {
         return new MatrixCoordinate(x, y);
     }
 
-    public boolean checkWin(DotType dotType){
+    public boolean checkWin(){
         return row() || column() || mainDiagonal() || sideDiagonal();
     }
 
-    public boolean isMapNotFull(){
+    public boolean isMapFull(){
         for (DotType [] map: map){
             for(DotType dot : map){
                 if(dot == DotType.EMPTY){
-                    return true;
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
     }
 
     private void initMap() {

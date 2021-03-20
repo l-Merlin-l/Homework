@@ -9,8 +9,8 @@ public interface GameService {
 
     void humanTurn (int rowIndex, int columnIndex);
 
-    boolean checkWin(DotType dotType);
+    boolean checkWin();
 
-    boolean isMapNotFull();
+    boolean isMapFull();
 
 }

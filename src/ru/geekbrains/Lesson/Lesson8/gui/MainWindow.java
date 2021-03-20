@@ -5,37 +5,54 @@ import ru.geekbrains.Lesson.Lesson8.core.domain.MatrixCoordinate;
 import ru.geekbrains.Lesson.Lesson8.core.impl.GameServiceImpl;
 import ru.geekbrains.Lesson.Lesson8.enums.DotType;
 import ru.geekbrains.Lesson.Lesson8.gui.component.StatusBar;
+import ru.geekbrains.Lesson.Lesson8.gui.dialog.Configureble;
+import ru.geekbrains.Lesson.Lesson8.gui.dialog.impl.ConfigurationDialog;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainWindow extends JFrame {
 
-    private final String human = "Игрок";
+    private final String human;
     private final String ai = "Компьютер";
 
     private final String DOT_EMPTY = "•";
     private JButton[][] buttons;
-    private DotType playerType  = DotType.X;
-    private int mapSize = 3;
-    private int dotsToWin = 3;
+    private final DotType playerType;
+    private final int mapSize;
+    private final int dotsToWin;
     private GameService gameService;
     private StatusBar statusBar;
 
     public MainWindow (){
+
         setTitle("Крестики нолики");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(500,200,600,700);
         statusBar = new StatusBar();
         statusBar.setMessage("Ожидание хода");
 
+        Configureble configureble = new ConfigurationDialog(this);
+        mapSize = configureble.getMapSize();
+        dotsToWin = configureble.getDotsToWin();
+        human = configureble.getNamePlayer();
+        playerType = configureble.getPlayerType();
+
+
         gameService = new GameServiceImpl(mapSize, dotsToWin, playerType);
 
 
         setLayout(new BorderLayout());
         add(createGridButtons(mapSize));
+
+        JButton newGame = new JButton("Заново");
+        newGame.addActionListener(e -> {
+            setVisible(false);
+            new MainWindow();
+        });
+        add(newGame, BorderLayout.EAST);
+
         add(statusBar, BorderLayout.SOUTH);
 
 
@@ -58,7 +75,6 @@ public class MainWindow extends JFrame {
 
                 button.addActionListener(getButtonListener());
 
-
                 buttons[i][j] = button;
                 gridPanel.add(button);
             }
@@ -72,17 +88,25 @@ public class MainWindow extends JFrame {
         return e -> {
             doHumanTurn((JButton) e.getSource());
 
-            if (isGameContinue(playerType)) {
+            if (isGameContinue(human)) {
                 doAiTurn();
-                statusBar.setMessage(human + ", ваш ход...");
-            } else {
-                finishGame(human);
+                if(isGameContinue(ai)){
+                    statusBar.setMessage(human + ", ваш ход...");
+                }
             }
         };
     }
 
-    private boolean isGameContinue(DotType dotType) {
-        return !gameService.checkWin(dotType) && gameService.isMapNotFull();
+    private boolean isGameContinue(String player) {
+        if(gameService.checkWin()){
+            finishGame("Победил - " + player);
+            return false;
+        }
+        if(gameService.isMapFull()){
+            finishGame("Ничья...");
+            return false;
+        }
+        return true;
     }
 
     private void doHumanTurn(JButton selectedButton) {
@@ -105,14 +129,10 @@ public class MainWindow extends JFrame {
         MatrixCoordinate coordinate = gameService.aiTurn();
         JButton aiSelectedButton = buttons[coordinate.getROW()][coordinate.getCOLUMN()];
         disableButtonWithMark(aiSelectedButton, aiDot);
-
-        if(!isGameContinue(aiDot)){
-            finishGame(ai);
-        }
     }
 
     private void finishGame(String player) {
-        statusBar.setMessage("Игра окончена! Победил - " + player);
+        statusBar.setMessage("Игра окончена! " + player);
         disableAllButtons();
     }
 

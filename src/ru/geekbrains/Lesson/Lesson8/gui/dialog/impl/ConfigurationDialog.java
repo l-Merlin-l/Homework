@@ -23,7 +23,7 @@ public class ConfigurationDialog extends  JDialog implements Configureble {
 
     public ConfigurationDialog(JFrame parentFrame){
         super(parentFrame, "Конфигурация игры", true);
-        int widthDialog = 400;
+        int widthDialog = 500;
         int heightDialog = 200;
         setBounds(parentFrame.getX() + (parentFrame.getWidth() - widthDialog) / 2,
                   parentFrame.getY() + (parentFrame.getHeight() - heightDialog) / 2,
@@ -87,35 +87,42 @@ public class ConfigurationDialog extends  JDialog implements Configureble {
 
     private boolean checkIntText(){
         boolean result = true;
-         try{
-             Integer.parseInt(mapSizeTextField.getText());
-         }catch (NumberFormatException e){
-             mapSizeTextField.setText(mapSize + "");
-             result = false;
-         }
-         try {
-             Integer.parseInt(dotsToWinTextField.getText());
-         }catch (NumberFormatException e){
-             dotsToWinTextField.setText(dotsToWin + "");
-             result = false;
-         }
-         return result;
+        try{
+            Integer.parseInt(mapSizeTextField.getText());
+        }catch (NumberFormatException e){
+            mapSizeTextField.setText(mapSize + "");
+            result = false;
+        }
+        try {
+            Integer.parseInt(dotsToWinTextField.getText());
+        }catch (NumberFormatException e){
+            dotsToWinTextField.setText(dotsToWin + "");
+            result = false;
+        }
+        return result;
     }
 
-    private void getDotsToWinListener() {
+    private boolean getDotsToWinListener() {
+        boolean result = true;
         if (Integer.parseInt(dotsToWinTextField.getText()) > Integer.parseInt(mapSizeTextField.getText())) {
             dotsToWinTextField.setText(mapSizeTextField.getText());
+            result = false;
         } else if(Integer.parseInt(dotsToWinTextField.getText()) < minDotsToWin){
             dotsToWinTextField.setText(minDotsToWin + "");
+            result = false;
         }
         initConfigData();
+        return result;
     }
 
-    private void getMapSizeListener() {
+    private boolean getMapSizeListener() {
+        boolean result = true;
         if(Integer.parseInt(mapSizeTextField.getText()) < minDotsToWin){
             mapSizeTextField.setText(minDotsToWin + "");
+            result = false;
         }
         initConfigData();
+        return result;
     }
 
     private void initConfigData(){
@@ -128,10 +135,7 @@ public class ConfigurationDialog extends  JDialog implements Configureble {
 
         WindowEvent closeEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
         applyButton.addActionListener(e -> {
-            boolean check = checkIntText();
-            getMapSizeListener();
-            getDotsToWinListener();
-            if (check){
+            if (checkIntText() && getMapSizeListener() && getDotsToWinListener()){//Проверка все ли данные корректно введены
                 dispatchEvent(closeEvent);
             }
         });

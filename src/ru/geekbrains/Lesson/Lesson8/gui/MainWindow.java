@@ -55,10 +55,6 @@ public class MainWindow extends JFrame {
 
         add(statusBar, BorderLayout.SOUTH);
 
-
-
-
-
         setVisible(true);
     }
 
